@@ -1,0 +1,21 @@
+## Interface: 11504, 20504, 30400, 40400, 50400
+## Title: |cff00ccffWellbrock|r Forever
+## Notes: World of Warcraft Classic/SoD QoL Addon (AutoLoot, Vendor Automation, Square Minimap, BlizzMove, Transmog, Waypoints, Quest Dialogs, Map Coords)
+## Author: Douglas
+## Version: 1.3.0-forever
+## SavedVariables: WellbrockDB
+## IconTexture: Interface\AddOns\Wellbrock_Forever\Media\icon.png
+
+Core\Constants.lua
+Core\Utils.lua
+Modules\AutoLoot.lua
+Modules\VendorAutomation.lua
+Modules\BlizzMove.lua
+Modules\Transmog.lua
+Modules\MinimapMod.lua
+Modules\WaypointHUD.lua
+Modules\MapCoords.lua
+Modules\QuestCinematic.lua
+Core\ConfigUI.lua
+Core\Init.lua
+Wellbrock.lua
