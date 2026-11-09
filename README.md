@@ -1,6 +1,8 @@
-# Wellbrock Classic — WoW Forever / Classic Era / Hardcore / SoD
+# Wellbrock Forever — WoW Classic Era / Hardcore / Season of Discovery
 
-Versão do addon **Wellbrock** adaptada para **World of Warcraft Classic** (Vanilla 1.12 / 1.15.x, Classic Era, Hardcore, Season of Discovery).
+Versão **Forever** do addon **Wellbrock** para **World of Warcraft Classic** (Vanilla 1.12 / 1.15.x, Classic Era, Hardcore, Season of Discovery).
+
+Inclui **Transmog** e **Waypoints** via integração com addons da comunidade (CanIMogIt, TomTom, etc.).
 
 ## 📦 Módulos Incluídos
 
@@ -9,26 +11,20 @@ Versão do addon **Wellbrock** adaptada para **World of Warcraft Classic** (Vani
 | **AutoLoot** | Saque rápido instantâneo (SpeedyAutoLoot) | ✅ Completo |
 | **VendorAutomation** | Venda automática de lixo cinza + reparo automático | ✅ Completo |
 | **BlizzMove** | Movimentação de janelas da Blizzard (frames seguros) | ✅ Completo |
+| **Transmog** | Status de transmog no tooltip/bolsas (Integra CanIMogIt/TransmogMaster/MogIt/ATT + Fallback) | ✅ Completo |
 | **MinimapMod** | Minimapa quadrado + borda + alinhamento de botões | ✅ Completo |
-| **MapCoords** | Exibição de coordenadas + favoritos de localização | ✅ Completo |
+| **WaypointHUD** | Bússola HUD com seta/distância (Integra TomTom/HandyNotes/BuiltIn) | ✅ Completo |
+| **MapCoords** | Exibição de coordenadas + favoritos + Waypoint integration | ✅ Completo |
 | **QuestCinematic** | Diálogo imersivo de missões (Lorewalker style) | ✅ Completo |
 | **ConfigUI** | Painel de configurações via InterfaceOptions | ✅ Completo |
 
-## ❌ Módulos Removidos (Incompatíveis com Classic)
+## 🔧 Diferenças Técnicas (Retail → Forever/Classic)
 
-| Módulo Retail | Motivo |
-|---------------|--------|
-| **Transmog** | Sistema de transmog não existe no Classic |
-| **WaypointHUD** | Waypoints/SuperTracking não existem |
-| **MapPins** (waypoints) | Substituído por **MapCoords** (coordenadas + favoritos simples) |
-
-## 🔧 Diferenças Técnicas (Retail → Classic)
-
-| API Retail | API Classic (Usada) |
-|------------|---------------------|
+| API Retail | API Forever/Classic (Usada) |
+|------------|-----------------------------|
 | `C_Container.*` | `GetContainerItemInfo`, `GetContainerItemLink`, `UseContainerItem` |
-| `C_TransmogCollection` | **Removido** |
-| `C_Navigation`, `C_Map.GetUserWaypoint` | **Removido** |
+| `C_TransmogCollection` | **Integração com addons** (CanIMogIt, TransmogMaster, MogIt, ATT) + Fallback tooltip |
+| `C_Navigation`, `C_Map.GetUserWaypoint` | **Integração com addons** (TomTom, HandyNotes, MapNotes) + BuiltIn waypoint |
 | `TooltipDataProcessor`, `Enum.TooltipDataType` | `GameTooltip:HookScript("OnTooltipSetItem")` |
 | `Settings.RegisterCanvasLayoutCategory` | `InterfaceOptions_AddCategory` |
 | `ContainerFrameItemButtonMixin` | Hooks em `ContainerFrameItemButton_OnUpdate` / XML |
@@ -37,9 +33,9 @@ Versão do addon **Wellbrock** adaptada para **World of Warcraft Classic** (Vani
 
 ## 🚀 Instalação
 
-1. Copie a pasta `Wellbrock_Classic` para:
+1. Copie a pasta `Wellbrock_Forever` para:
    ```
-   Interface/AddOns/Wellbrock_Classic/
+   Interface/AddOns/Wellbrock_Forever/
    ```
 2. Reinicie o WoW ou faça `/reload`
 3. Digite `/wb` para abrir o painel de configurações
@@ -52,12 +48,15 @@ Versão do addon **Wellbrock** adaptada para **World of Warcraft Classic** (Vani
 | `/wb status` | Mostra status de todos os módulos |
 | `/wb loot` | Alterna AutoLoot |
 | `/wb move` | Alterna BlizzMove |
+| `/wb transmog` | Alterna Transmog Status |
+| `/wb nav` | Alterna Waypoint HUD Bússola |
 | `/wb coords` | Alterna exibição de coordenadas |
 | `/wb quest` | Alterna diálogo imersivo |
 | `/wb square` | Alterna minimapa quadrado |
 | `/wb vendor` | Alterna venda/reparo automático |
 | `/wb pin save [nome]` | Salva coordenada atual |
 | `/wb pin list` | Lista favoritos salvos |
+| `/wb pin goto [id]` | Define waypoint para o ponto (integra WaypointHUD) |
 | `/wb pin del [id]` | Remove favorito |
 | `/wb debug` | Alterna mensagens de debug |
 
@@ -115,9 +114,22 @@ Versão do addon **Wellbrock** adaptada para **World of Warcraft Classic** (Vani
 
 ## 📝 Changelog
 
+### v1.3.0-forever (2026-11-09)
+- **Novo projeto separado**: Wellbrock Forever (pasta/repo/workspace próprios)
+- **Transmog restaurado**: Integração com CanIMogIt, TransmogMaster, MogIt, AllTheThings + fallback tooltip scan
+- **WaypointHUD restaurado**: Integração com TomTom, HandyNotes, MapNotes + waypoint nativo + HUD compass
+- **MapCoords**: Coordenadas + favoritos + integração WaypointHUD (`/wb pin goto`)
+- ConfigUI atualizado com opções de Transmog e WaypointHUD
+- BlizzMove: frames seguros + `SetUserPlaced` + anti-taint
+- Transmog: bag overlays (V/X) via `ContainerFrameItemButton_OnUpdate`
+- WaypointHUD: HUD compass com seta rotativa + distância real (TomTom/BuiltIn)
+- AutoLoot otimizado (OnUpdate throttled 10Hz)
+- VendorAutomation usando APIs Classic (GetContainerItem*)
+- Lazy-load módulos no Init
+- PLAYER_LOGOUT para salvar posições
+
 ### v1.3.0-classic (2026-11-08)
 - Port inicial para Classic Era
-- Removidos módulos incompatíveis (Transmog, WaypointHUD, MapPins waypoints)
 - Adicionado MapCoords (coordenadas + favoritos)
 - ConfigUI reescrito para InterfaceOptions
 - APIs modernas substituídas por globais Classic
@@ -131,7 +143,8 @@ Versão do addon **Wellbrock** adaptada para **World of Warcraft Classic** (Vani
 - **Leatrix Plus** — inspiração para VendorAutomation, BlizzMove, Square Minimap
 - **Lorewalker** — inspiração para QuestCinematic
 - **Map Pin Enhanced** — inspiração para MapCoords
-- **Can I Mog It?** — inspiração para Transmog (Retail only)
+- **Can I Mog It?** / **TransmogMaster** / **MogIt** / **All The Things** — inspiração e APIs para Transmog
+- **TomTom** / **HandyNotes** / **MapNotes** — inspiração e APIs para Waypoints
 
 ## 📄 Licença
 
